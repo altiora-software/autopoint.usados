@@ -2,6 +2,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import AutoCard from "./AutoCard";
+import { Auto } from "../types/auto"; // Importa la interfaz Auto
 
 /**
  * Carrusel de autos destacados
@@ -11,7 +12,7 @@ export default function AutosCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Datos de ejemplo de autos
-  const autos = [
+  const autos: Auto[] = [
     {
       id: 1,
       marca: "Toyota",

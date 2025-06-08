@@ -2,20 +2,9 @@
 
 import Image from "next/image";
 import React from "react";
+import { Auto } from "../types/auto"; // Importa la interfaz 
+// Auto desde tu archivo de tipos
 
-export interface Auto {
-  id: string | number; // identificador único
-  marca: string;
-  modelo: string;
-  year: number;
-  km: number;
-  price: number;
-  isNew: boolean; // true = 0km, false = usado
-  fuelType?: string;
-  transmission?: string;
-  imageUrl?: string;
-  description?: string;
-}
 
 interface AutoCardProps {
   auto: Auto;
@@ -27,6 +16,8 @@ interface AutoCardProps {
  */
 export default function AutoCard({ auto }: AutoCardProps) {
   // Función para formatear el precio en pesos argentinos
+  console.log(auto);
+  
   const formatPrice = (price: number): string => {
     return new Intl.NumberFormat("es-AR", {
       style: "currency",
