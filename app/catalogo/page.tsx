@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterBar from "../../components/FilterBar";
 import AutoCard from "../../components/AutoCard";
-import autosData from "../../data/autos"; // Importa tus datos reales
 
 export interface Auto {
   id: string | number;
@@ -26,7 +25,20 @@ interface Filters {
 }
 
 export default function CatalogoPage() {
-  const [filteredAutos, setFilteredAutos] = useState<Auto[]>(autosData);
+  const [autosData, setAutosData] = useState<Auto[]>([]);
+  const [filteredAutos, setFilteredAutos] = useState<Auto[]>([]);
+
+  // 🔁 Traer los datos reales desde la API
+  useEffect(() => {
+    const fetchAutos = async () => {
+      const res = await fetch("/api/autos");
+      const data = await res.json();
+      setAutosData(data);
+      setFilteredAutos(data); // Inicialmente mostrar todos
+    };
+
+    fetchAutos();
+  }, []);
 
   const handleFilterChange = (filters: Filters) => {
     let autosFiltered = autosData;
@@ -49,8 +61,6 @@ export default function CatalogoPage() {
 
     setFilteredAutos(autosFiltered);
   };
-  // Si no hay autos filtrados, mostramos todos los autos
-  // Esto permite que el catálogo muestre todos los autos al inicio  
 
   const autosAMostrar = filteredAutos.length > 0 ? filteredAutos : autosData;
 
@@ -61,8 +71,7 @@ export default function CatalogoPage() {
           Catálogo de Autos
         </h1>
         <p className="text-gray-600 mt-2">
-          Encuentra el auto perfecto entre nuestras {autosData.length} opciones
-          disponibles
+          Encuentra el auto perfecto entre nuestras {autosData.length} opciones disponibles
         </p>
       </div>
 
