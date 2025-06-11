@@ -8,7 +8,7 @@ import AutosCarousel from "../components/AutosCarousel";
  */
 export default function HomePage() {
   return (
-    <div>
+    <div className="bg-background text-foreground font-sans min-h-screen">
       {/* Hero slider con imágenes y call to action */}
       <HeroSlider />
 

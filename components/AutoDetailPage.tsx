@@ -4,8 +4,6 @@ import { useState } from "react";
 import { Auto } from "../types/auto";
 import Image from "next/image";
 
-import img1 from "/public/auto1.jpeg";
-
 interface AutoDetailPageProps {
   auto: Auto;
 }
@@ -24,27 +22,25 @@ export default function AutoDetailPage({ auto }: AutoDetailPageProps) {
   const formatKm = (km: number) => {
     return new Intl.NumberFormat("es-AR").format(km);
   };
-  // const srcImage =
-  //   auto.images && auto.images.length > 0
-  //     ? auto.images[currentImageIndex]
-  //     : auto.imageUrl ?? "/autos/default.jpg"; // fallback si no hay imageUrl
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8 bg-background text-foreground font-sans">
       {/* Título principal */}
       <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+        <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary">
           {auto.marca} {auto.modelo} {auto.year}
         </h1>
         <div className="flex items-center gap-2 mt-2">
           <span
             className={`px-3 py-1 rounded-full text-sm font-medium ${
-              auto.isNew ? "bg-green-500 text-white" : "bg-blue-500 text-white"
+              auto.isNew
+                ? "bg-green-600 text-background"
+                : "bg-blue-600 text-background"
             }`}
           >
             {auto.isNew ? "0km" : "Usado"}
           </span>
-          <span className="text-2xl font-bold text-blue-600">
+          <span className="text-2xl font-bold text-primary">
             {formatPrice(auto.price)}
           </span>
         </div>
@@ -53,12 +49,15 @@ export default function AutoDetailPage({ auto }: AutoDetailPageProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Galería de imágenes */}
         <div>
-          {/* Imagen principal */}
-          <div className="mb-4">
+          <div className="mb-4 rounded-lg overflow-hidden shadow-md">
             <Image
               height={300}
               width={600}
-              src={img1}
+              src={
+                auto.images && auto.images.length > 0
+                  ? auto.images[currentImageIndex]
+                  : auto.imageUrl ?? "/autos/default.jpg"
+              }
               alt={`${auto.marca} ${auto.modelo} - Imagen ${
                 currentImageIndex + 1
               }`}
@@ -75,8 +74,8 @@ export default function AutoDetailPage({ auto }: AutoDetailPageProps) {
                   onClick={() => setCurrentImageIndex(index)}
                   className={`overflow-hidden rounded border-2 transition-colors ${
                     currentImageIndex === index
-                      ? "border-blue-500"
-                      : "border-gray-200 hover:border-gray-300"
+                      ? "border-primary"
+                      : "border-gray-700 hover:border-primary"
                   }`}
                 >
                   <Image
@@ -95,74 +94,44 @@ export default function AutoDetailPage({ auto }: AutoDetailPageProps) {
         {/* Información detallada */}
         <div>
           {/* Características principales */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">Características</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Año:</span>
-                <span className="font-medium">{auto.year}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Kilometraje:</span>
-                <span className="font-medium">{formatKm(auto.km)} km</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Combustible:</span>
-                <span className="font-medium">{auto.fuelType}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Motor:</span>
-                <span className="font-medium">
-                  {auto.caracteristicas?.motor}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Transmisión:</span>
-                <span className="font-medium">
-                  {auto.caracteristicas?.transmision}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Tracción:</span>
-                <span className="font-medium">
-                  {auto.caracteristicas?.traccion}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Puertas:</span>
-                <span className="font-medium">
-                  {auto.caracteristicas?.puertas}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Asientos:</span>
-                <span className="font-medium">
-                  {auto.caracteristicas?.asientos}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Color:</span>
-                <span className="font-medium">
-                  {auto.caracteristicas?.color}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Patente:</span>
-                <span className="font-medium">
-                  {auto.caracteristicas?.patente}
-                </span>
-              </div>
+          <div className="bg-background rounded-lg shadow-md p-6 mb-6 border border-gray-700">
+            <h2 className="text-xl font-heading font-semibold mb-4 text-primary">
+              Características
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-foreground">
+              {[
+                { label: "Año", value: auto.year },
+                { label: "Kilometraje", value: `${formatKm(auto.km)} km` },
+                { label: "Combustible", value: auto.fuelType },
+                { label: "Motor", value: auto.caracteristicas?.motor },
+                {
+                  label: "Transmisión",
+                  value: auto.caracteristicas?.transmision,
+                },
+                { label: "Tracción", value: auto.caracteristicas?.traccion },
+                { label: "Puertas", value: auto.caracteristicas?.puertas },
+                { label: "Asientos", value: auto.caracteristicas?.asientos },
+                { label: "Color", value: auto.caracteristicas?.color },
+                { label: "Patente", value: auto.caracteristicas?.patente },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex justify-between">
+                  <span className="text-muted">{label}:</span>
+                  <span className="font-medium">{value || "-"}</span>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Equipamiento */}
           {auto.equipamiento && auto.equipamiento.length > 0 && (
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h2 className="text-xl font-semibold mb-4">Equipamiento</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="bg-background rounded-lg shadow-md p-6 mb-6 border border-gray-700">
+              <h2 className="text-xl font-heading font-semibold mb-4 text-primary">
+                Equipamiento
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-foreground">
                 {auto.equipamiento.map((item, index) => (
                   <div key={index} className="flex items-center text-sm">
-                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-green-600 mr-2">✓</span>
                     <span>{item}</span>
                   </div>
                 ))}
@@ -171,9 +140,13 @@ export default function AutoDetailPage({ auto }: AutoDetailPageProps) {
           )}
 
           {/* Descripción */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">Descripción</h2>
-            <p className="text-gray-700 leading-relaxed">{auto.description}</p>
+          <div className="bg-background rounded-lg shadow-md p-6 mb-6 border border-gray-700">
+            <h2 className="text-xl font-heading font-semibold mb-4 text-primary">
+              Descripción
+            </h2>
+            <p className="text-foreground leading-relaxed">
+              {auto.description}
+            </p>
           </div>
 
           {/* Botones de contacto */}
@@ -184,13 +157,13 @@ export default function AutoDetailPage({ auto }: AutoDetailPageProps) {
               } ${auto.modelo} ${
                 auto.year
               } que tienen publicado por ${formatPrice(auto.price)}`}
-              className="w-full bg-green-500 hover:bg-green-600 text-white text-center py-3 px-6 rounded-lg font-medium transition-colors block"
+              className="w-full bg-primary hover:bg-hover text-buttonText text-center py-3 px-6 rounded-lg font-medium transition-colors block"
             >
               Contactar por WhatsApp
             </a>
             <a
               href="tel:+5491234567890"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 px-6 rounded-lg font-medium transition-colors block"
+              className="w-full bg-secondary hover:bg-secondary/80 text-buttonText text-center py-3 px-6 rounded-lg font-medium transition-colors block"
             >
               Llamar por teléfono
             </a>

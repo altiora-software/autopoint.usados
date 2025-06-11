@@ -1,17 +1,11 @@
-// components/AutosCarousel.js
 "use client";
 import { useState, useEffect } from "react";
 import AutoCard from "./AutoCard";
-import { Auto } from "../types/auto"; // Importa la interfaz Auto
+import { Auto } from "../types/auto";
 
-/**
- * Carrusel de autos destacados
- * Muestra 1 card en móvil, 3 en desktop, con navegación infinita
- */
 export default function AutosCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Datos de ejemplo de autos
   const autos: Auto[] = [
     {
       id: 1,
@@ -57,9 +51,74 @@ export default function AutosCarousel() {
       imageUrl: "/auto1.jpeg",
       isNew: false,
     },
+    {
+      id: 4,
+      marca: "Toyota",
+      modelo: "Corolla",
+      year: 2020,
+      km: 45000,
+      fuelType: "Nafta",
+      price: 15000000,
+      imageUrl: "/auto1.jpeg",
+      isNew: false,
+    },
+    {
+      id: 4,
+      marca: "Toyota",
+      modelo: "Corolla",
+      year: 2020,
+      km: 45000,
+      fuelType: "Nafta",
+      price: 15000000,
+      imageUrl: "/auto1.jpeg",
+      isNew: false,
+    },
+    {
+      id: 4,
+      marca: "Toyota",
+      modelo: "Corolla",
+      year: 2020,
+      km: 45000,
+      fuelType: "Nafta",
+      price: 15000000,
+      imageUrl: "/auto1.jpeg",
+      isNew: false,
+    },
+    {
+      id: 4,
+      marca: "Toyota",
+      modelo: "Corolla",
+      year: 2020,
+      km: 45000,
+      fuelType: "Nafta",
+      price: 15000000,
+      imageUrl: "/auto1.jpeg",
+      isNew: false,
+    },
+    {
+      id: 4,
+      marca: "Toyota",
+      modelo: "Corolla",
+      year: 2020,
+      km: 45000,
+      fuelType: "Nafta",
+      price: 15000000,
+      imageUrl: "/auto1.jpeg",
+      isNew: false,
+    },
+    {
+      id: 4,
+      marca: "Toyota",
+      modelo: "Corolla",
+      year: 2020,
+      km: 45000,
+      fuelType: "Nafta",
+      price: 15000000,
+      imageUrl: "/auto1.jpeg",
+      isNew: false,
+    },
   ];
 
-  // Navegación del carrusel
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % autos.length);
   };
@@ -68,54 +127,61 @@ export default function AutosCarousel() {
     setCurrentIndex((prev) => (prev - 1 + autos.length) % autos.length);
   };
 
-  // Auto-advance cada 4 segundos
   useEffect(() => {
     const timer = setInterval(nextSlide, 4000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <section className="py-8 md:py-12 bg-gray-50">
+    <section className="py-8 md:py-12 bg-background font-sans">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Título de la sección */}
+        {/* Título de sección */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold text-primary">
             Autos Destacados
           </h2>
-          <p className="text-gray-600 mt-2">
+          <p className="text-foreground mt-2">
             Encuentra el auto perfecto para ti
           </p>
         </div>
 
         {/* Carrusel */}
         <div className="relative">
-          {/* Contenedor de cards - Vista móvil: 1 card, Desktop: 3 cards */}
           <div className="overflow-hidden">
             <div
-              className="flex transition-transform duration-300 ease-in-out md:grid md:grid-cols-3 md:gap-6"
+              className="flex transition-transform duration-300 ease-in-out md:grid md:grid-cols-3 md:grid-rows-1 md:gap-6"
               style={{
                 transform: `translateX(-${currentIndex * 100}%)`,
               }}
             >
-              {autos.map((auto) => (
-                <div
-                  key={auto.id}
-                  className="w-full flex-shrink-0 px-2 md:px-0"
-                >
-                  <AutoCard auto={auto} />
-                </div>
-              ))}
+              {/*
+      On smaller screens (mobile), you probably still want the carousel
+      with all cars. So, we'll conditionally render or slice for desktop.
+    */}
+              {autos.slice(0, 3).map(
+                (
+                  auto // <--- Add .slice(0, 3) here for desktop view
+                ) => (
+                  <div
+                    key={auto.id}
+                    className="w-full flex-shrink-0 px-2 md:px-0"
+                  >
+                    <AutoCard auto={auto} />
+                  </div>
+                )
+              )}
             </div>
           </div>
 
-          {/* Botones de navegación - Solo visible en móvil */}
+          {/* Botones navegación móvil */}
           <div className="md:hidden">
             <button
               onClick={prevSlide}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-primary rounded-full p-2 shadow-lg hover:bg-hover transition-colors"
+              aria-label="Anterior"
             >
               <svg
-                className="w-5 h-5"
+                className="w-5 h-5 text-buttonText"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -130,10 +196,11 @@ export default function AutosCarousel() {
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary rounded-full p-2 shadow-lg hover:bg-hover transition-colors"
+              aria-label="Siguiente"
             >
               <svg
-                className="w-5 h-5"
+                className="w-5 h-5 text-buttonText"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -148,25 +215,26 @@ export default function AutosCarousel() {
             </button>
           </div>
 
-          {/* Indicadores - Solo visible en móvil */}
+          {/* Indicadores móviles */}
           <div className="flex justify-center mt-4 space-x-2 md:hidden">
             {autos.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? "bg-blue-600" : "bg-gray-300"
+                  index === currentIndex ? "bg-primary" : "bg-muted"
                 }`}
+                aria-label={`Slide ${index + 1}`}
               />
             ))}
           </div>
         </div>
 
-        {/* Botón para ver todos los autos */}
+        {/* Botón ver todos */}
         <div className="text-center mt-8">
           <a
             href="/catalogo"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium inline-block transition-colors"
+            className="bg-primary hover:bg-hover text-buttonText px-6 py-3 rounded-lg font-medium inline-block transition-colors"
           >
             Ver Todos los Autos
           </a>

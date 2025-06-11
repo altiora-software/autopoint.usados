@@ -1,4 +1,3 @@
-// app/autos/[id]/page.tsx
 "use client";
 
 import { useParams } from "next/navigation";
@@ -10,11 +9,17 @@ export default function AutoDetail() {
   const params = useParams();
   const id = params.id;
 
-  // Buscamos el auto con el id recibido como string
+  // Buscar el auto según id
   const auto: Auto | undefined = autosData.find((a) => a.id.toString() === id);
 
-  if (!auto) return <div>Auto no encontrado</div>;
+  // Mostrar mensaje estilizado si no se encuentra el auto
+  if (!auto)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground font-sans">
+        <p className="text-xl font-semibold text-primary">Auto no encontrado</p>
+      </div>
+    );
 
-  // Pasamos el objeto auto completo al componente detalle
+  // Mostrar detalle si existe
   return <AutoDetailPage auto={auto} />;
 }

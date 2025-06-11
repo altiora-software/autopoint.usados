@@ -3,7 +3,7 @@
 import { useState } from "react";
 import FilterBar from "../../components/FilterBar";
 import AutoCard from "../../components/AutoCard";
-import autosData from "../../data/autos"; // Importa tus datos reales
+import autosData from "../../data/autos";
 
 export interface Auto {
   id: string | number;
@@ -49,18 +49,16 @@ export default function CatalogoPage() {
 
     setFilteredAutos(autosFiltered);
   };
-  // Si no hay autos filtrados, mostramos todos los autos
-  // Esto permite que el catálogo muestre todos los autos al inicio  
 
   const autosAMostrar = filteredAutos.length > 0 ? filteredAutos : autosData;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 bg-background text-foreground font-sans min-h-screen">
       <div className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+        <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary">
           Catálogo de Autos
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-muted mt-2">
           Encuentra el auto perfecto entre nuestras {autosData.length} opciones
           disponibles
         </p>
@@ -69,7 +67,7 @@ export default function CatalogoPage() {
       <FilterBar onFilterChange={handleFilterChange} />
 
       <div className="mb-4">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-muted">
           Mostrando {autosAMostrar.length} de {autosData.length} autos
         </p>
       </div>
@@ -82,9 +80,9 @@ export default function CatalogoPage() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
+          <div className="text-muted mb-4">
             <svg
-              className="mx-auto h-16 w-16"
+              className="mx-auto h-16 w-16 text-muted"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -97,10 +95,10 @@ export default function CatalogoPage() {
               />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-gray-700 mb-2">
+          <h3 className="text-lg font-medium text-muted mb-2">
             No se encontraron autos
           </h3>
-          <p className="text-gray-500">
+          <p className="text-muted">
             Intenta ajustar los filtros para ver más resultados
           </p>
         </div>

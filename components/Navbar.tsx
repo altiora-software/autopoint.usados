@@ -1,55 +1,53 @@
-// components/Navbar.js
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-/**
- * Componente de navegación principal
- * Incluye logo, menú responsive y botón de WhatsApp
- */
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="bg-background shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-xl font-bold text-blue-600">
-              Autopoint Usados
-            </h1>
+           <Image 
+              src="/logo.png"
+              alt="Logo de la empresa"
+              width={80}
+              height={80}
+              // className="h-auto w-auto"
+           />
           </div>
 
-          {/* Menú desktop - oculto en móvil */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2"
-              >
-                Inicio
-              </Link>
-              <Link
-                href="/catalogo"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2"
-              >
-                Catálogo
-              </Link>
-              <Link
-                href="/contacto"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2"
-              >
-                Contacto
-              </Link>
-            </div>
+          {/* Menú desktop */}
+          <div className="hidden md:flex space-x-6">
+            <Link
+              href="/"
+              className="text-primary hover:text-secondary px-3 py-2 rounded-md transition-colors duration-200"
+            >
+              Inicio
+            </Link>
+            <Link
+              href="/catalogo"
+              className="text-primary hover:text-secondary px-3 py-2 rounded-md transition-colors duration-200"
+            >
+              Catálogo
+            </Link>
+            <Link
+              href="/contacto"
+              className="text-primary hover:text-secondary px-3 py-2 rounded-md transition-colors duration-200"
+            >
+              Contacto
+            </Link>
           </div>
 
           {/* Botón WhatsApp desktop */}
-          <div className="hidden md:block">
+          <div className="hidden md:block ">
             <a
               href="https://wa.me/5491234567890"
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium"
+              className="bg-primary text-buttonText hover:bg-accent text-foreground px-4 py-2 rounded-lg font-medium transition-colors duration-200"
             >
               WhatsApp
             </a>
@@ -59,7 +57,8 @@ export default function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none"
+              className="text-primary hover:text-secondary focus:outline-none transition-colors duration-200"
+              aria-label="Toggle menu"
             >
               <svg
                 className="h-6 w-6"
@@ -84,33 +83,34 @@ export default function Navbar() {
 
         {/* Menú móvil desplegable */}
         {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2"
-              >
-                Inicio
-              </Link>
-              <a
-                href="/catalogo"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2"
-              >
-                Catálogo
-              </a>
-              <a
-                href="/contacto"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2"
-              >
-                Contacto
-              </a>
-              <a
-                href="https://wa.me/5491234567890"
-                className="bg-green-500 text-white block px-3 py-2 rounded-lg font-medium mt-2"
-              >
-                Contactar por WhatsApp
-              </a>
-            </div>
+          <div className="text-center md:hidden bg-background px-2 pt-2 pb-3 space-y-1 sm:px-3 rounded-b-lg shadow-lg">
+            <Link
+              href="/"
+              className="text-primary hover:text-secondary block px-3 py-2 rounded-md transition-colors duration-200"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Inicio
+            </Link>
+            <Link
+              href="/catalogo"
+              className="text-primary hover:text-secondary block px-3 py-2 rounded-md transition-colors duration-200"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Catálogo
+            </Link>
+            <Link
+              href="/contacto"
+              className="text-primary hover:text-secondary block px-3 py-2 rounded-md transition-colors duration-200"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contacto
+            </Link>
+            <a
+              href="https://wa.me/5491234567890"
+              className="hover:bg-accent text-foreground block px-3 py-2 rounded-lg font-medium mt-2 text-center transition-colors duration-200"
+            >
+              Contactar por WhatsApp
+            </a>
           </div>
         )}
       </div>

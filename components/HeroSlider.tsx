@@ -1,15 +1,9 @@
-// components/HeroSlider.js
 "use client";
 import { useState, useEffect } from "react";
 
-/**
- * Componente HeroSlider para la página principal
- * Slider automático con imágenes, texto y botón CTA
- */
 export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Datos de ejemplo para el slider
   const slides = [
     {
       id: 1,
@@ -20,7 +14,6 @@ export default function HeroSlider() {
     {
       id: 2,
       image: "/auto2.jpeg",
-
       title: "Calidad garantizada",
       subtitle: "Todos nuestros autos pasan por inspección técnica",
     },
@@ -32,7 +25,6 @@ export default function HeroSlider() {
     },
   ];
 
-  // Auto-advance del slider cada 5 segundos
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -41,7 +33,7 @@ export default function HeroSlider() {
   }, [slides.length]);
 
   return (
-    <div className="relative h-64 md:h-96 overflow-hidden">
+    <div className="relative h-64 md:h-96 overflow-hidden font-sans">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
@@ -49,28 +41,27 @@ export default function HeroSlider() {
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
-          {/* Imagen de fondo */}
           <div
             className="w-full h-full bg-cover bg-center"
             style={{ backgroundImage: `url(${slide.image})` }}
           >
-            {/* Overlay oscuro para mejor legibilidad del texto */}
-            <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+            {/* Overlay oscuro para legibilidad */}
+            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
             {/* Contenido del slide */}
-            <div className="relative h-full flex items-center justify-center text-center text-white px-4">
-              <div>
-                <h2 className="text-2xl md:text-4xl font-bold mb-2">
-                  {slide.title}
-                </h2>
-                <p className="text-lg md:text-xl mb-6">{slide.subtitle}</p>
-                <a
-                  href="/catalogo"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium inline-block transition-colors"
-                >
-                  Ver Catálogo
-                </a>
-              </div>
+            <div className="relative h-full flex flex-col items-center justify-center text-center px-4 text-primary">
+              <h2 className="text-3xl md:text-5xl font-bold mb-2 font-heading">
+                {slide.title}
+              </h2>
+              <p className="text-lg md:text-2xl mb-6 font-sans text-foreground">
+                {slide.subtitle}
+              </p>
+              <a
+                href="/catalogo"
+                className="bg-primary text-buttonText px-6 py-3 rounded-lg font-medium inline-block transition-colors hover:bg-hover"
+              >
+                Ver Catálogo
+              </a>
             </div>
           </div>
         </div>
@@ -83,8 +74,11 @@ export default function HeroSlider() {
             key={index}
             onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full transition-colors ${
-              index === currentSlide ? "bg-white" : "bg-white bg-opacity-50"
+              index === currentSlide
+                ? "bg-foreground"
+                : "bg-foreground bg-opacity-40"
             }`}
+            aria-label={`Slide ${index + 1}`}
           />
         ))}
       </div>
