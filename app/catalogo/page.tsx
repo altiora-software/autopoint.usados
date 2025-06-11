@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import FilterBar from "../../components/FilterBar";
 import AutoCard from "../../components/AutoCard";
-import autosData from "../../data/autos";
+// import autosData from "../../data/autos"
 
 export interface Auto {
   id: string | number;
