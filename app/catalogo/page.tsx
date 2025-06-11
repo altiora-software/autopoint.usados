@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterBar from "../../components/FilterBar";
 import AutoCard from "../../components/AutoCard";
 import autosData from "../../data/autos";
@@ -26,7 +26,20 @@ interface Filters {
 }
 
 export default function CatalogoPage() {
-  const [filteredAutos, setFilteredAutos] = useState<Auto[]>(autosData);
+  const [autosData, setAutosData] = useState<Auto[]>([]);
+  const [filteredAutos, setFilteredAutos] = useState<Auto[]>([]);
+
+  // 🔁 Traer los datos reales desde la API
+  useEffect(() => {
+    const fetchAutos = async () => {
+      const res = await fetch("/api/autos");
+      const data = await res.json();
+      setAutosData(data);
+      setFilteredAutos(data); // Inicialmente mostrar todos
+    };
+
+    fetchAutos();
+  }, []);
 
   const handleFilterChange = (filters: Filters) => {
     let autosFiltered = autosData;
