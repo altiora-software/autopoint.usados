@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import FilterBar from "../../components/FilterBar";
 import AutoCard from "../../components/AutoCard";
-// import autosData from "../../data/autos"
+import autosData from "../../data/autos"
 
 export interface Auto {
   id: string | number;
@@ -27,9 +27,9 @@ interface Filters {
 
 export default function CatalogoPage() {
   // Estado para controlar si la API está cargando datos
-  // const [autosData, setAutosData] = useState<Auto[]>([]);
+  // const [autosData, setAutosData] = useState<Auto[]>(autosData); // Mock local de autos
   // Estado para manejar errores en la llamada a la API
-  const [filteredAutos, setFilteredAutos] = useState<Auto[]>([]);
+  // const [filteredAutos, setFilteredAutos] = useState<Auto[]>([]);
 
   // Estado para controlar si la API está cargando datos
   const [loading, setLoading] = useState<boolean>(true);
@@ -39,41 +39,44 @@ export default function CatalogoPage() {
   // Estado principal con datos de autos, inicializado con el mock local
   const [autosDataState, setAutosDataState] = useState<Auto[]>([]);
   // Estado para autos filtrados según filtros aplicados
-  // const [filteredAutos, setFilteredAutos] = useState<Auto[]>(autosData);
+  const [filteredAutos, setFilteredAutos] = useState<Auto[]>(autosData);
 // useEffect para moock local
-  // useEffect(() => {
-  //   // Simulamos carga inicial de datos para liberar el "loading"
-  //   setAutosDataState(autosData);
-  //   setFilteredAutos(autosData);
-  //   setLoading(false); // <--- Esto libera el render para mostrar autos
-  // }, []);
+  useEffect(() => {
+    // Simulamos carga inicial de datos para liberar el "loading"
+    setAutosDataState(autosData);
+    setFilteredAutos(autosData);
+    setLoading(false); // <--- Esto libera el render para mostrar autos
+  }, []);
 
   // 🔁 Traer los datos reales desde la API
-  useEffect(() => {
-    const fetchAutos = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/autos");
-        if (!res.ok) {
-          // Si hay error HTTP, lanzar excepción
-          throw new Error(`Error al obtener autos: ${res.statusText}`);
-        }
-        const data = await res.json();
-        setAutosDataState(data);
-        setFilteredAutos(data); // Inicialmente mostrar todos
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error desconocido al cargar los autos");
-      }
-      } finally {
-        setLoading(false);
-      }
-    };
+  
+  
+  // Comentado para evitar llamadas a la API real en este ejemplo
+  // useEffect(() => {
+  //   const fetchAutos = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const res = await fetch("/api/autos");
+  //       if (!res.ok) {
+  //         // Si hay error HTTP, lanzar excepción
+  //         throw new Error(`Error al obtener autos: ${res.statusText}`);
+  //       }
+  //       const data = await res.json();
+  //       setAutosDataState(data);
+  //       setFilteredAutos(data); // Inicialmente mostrar todos
+  //     } catch (err: unknown) {
+  //       if (err instanceof Error) {
+  //       setError(err.message);
+  //     } else {
+  //       setError("Error desconocido al cargar los autos");
+  //     }
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchAutos();
-  }, []);
+  //   fetchAutos();
+  // }, []);
 
   const handleFilterChange = (filters: Filters) => {
     let autosFiltered = autosDataState;
@@ -98,8 +101,7 @@ export default function CatalogoPage() {
     setFilteredAutos(autosFiltered);
   };
   // Se decide qué lista mostrar, la filtrada o la completa
-  const autosAMostrar =
-    filteredAutos.length > 0 ? filteredAutos : autosDataState;
+  const autosAMostrar = filteredAutos.length > 0 ? filteredAutos : autosData;
 
   console.log(autosAMostrar, "autosAMostrar");
 
@@ -120,8 +122,8 @@ export default function CatalogoPage() {
           Catálogo de Autos
         </h1>
         <p className="text-muted mt-2">
-          Encuentra el auto perfecto entre nuestras {autosDataState.length}{" "}
-          opciones disponibles
+          Encuentra el auto perfecto entre nuestras {autosData.length} opciones
+          disponibles
         </p>
       </div>
       {/* Barra de filtros */}
@@ -129,7 +131,7 @@ export default function CatalogoPage() {
 
       <div className="mb-4">
         <p className="text-sm text-muted">
-          Mostrando {autosAMostrar.length} de {autosDataState.length} autos
+          Mostrando {autosAMostrar.length} de {autosData.length} autos
         </p>
       </div>
       {/* Mostrar autos o mensaje si no hay resultados */}
