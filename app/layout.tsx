@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { ReactNode } from "react";
 import type { Metadata } from "next";
+import ClientProvider from "./ClientProvider";
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -32,7 +33,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Navbar />
 
         {/* Contenido principal que crece para empujar el footer hacia abajo */}
-        <main className="flex-grow">{children}</main>
+        <main className="flex-grow">
+          <ClientProvider>{children}</ClientProvider>
+        </main>
 
         {/* Footer siempre en la parte inferior */}
         <Footer />
