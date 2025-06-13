@@ -26,27 +26,62 @@ interface Filters {
 }
 
 export default function CatalogoPage() {
-  const [autosData, setAutosData] = useState<Auto[]>([]);
+  // Estado para controlar si la API está cargando datos
+  // const [autosData, setAutosData] = useState<Auto[]>([]);
+  // Estado para manejar errores en la llamada a la API
   const [filteredAutos, setFilteredAutos] = useState<Auto[]>([]);
+
+  // Estado para controlar si la API está cargando datos
+  const [loading, setLoading] = useState<boolean>(true);
+  //  Estado para manejar errores en la llamada a la API
+  const [error, setError] = useState<string | null>(null);
+
+  // Estado principal con datos de autos, inicializado con el mock local
+  const [autosDataState, setAutosDataState] = useState<Auto[]>([]);
+  // Estado para autos filtrados según filtros aplicados
+  // const [filteredAutos, setFilteredAutos] = useState<Auto[]>(autosData);
+// useEffect para moock local
+  // useEffect(() => {
+  //   // Simulamos carga inicial de datos para liberar el "loading"
+  //   setAutosDataState(autosData);
+  //   setFilteredAutos(autosData);
+  //   setLoading(false); // <--- Esto libera el render para mostrar autos
+  // }, []);
 
   // 🔁 Traer los datos reales desde la API
   useEffect(() => {
     const fetchAutos = async () => {
-      const res = await fetch("/api/autos");
-      const data = await res.json();
-      setAutosData(data);
-      setFilteredAutos(data); // Inicialmente mostrar todos
+      try {
+        setLoading(true);
+        const res = await fetch("/api/autos");
+        if (!res.ok) {
+          // Si hay error HTTP, lanzar excepción
+          throw new Error(`Error al obtener autos: ${res.statusText}`);
+        }
+        const data = await res.json();
+        setAutosDataState(data);
+        setFilteredAutos(data); // Inicialmente mostrar todos
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Error desconocido al cargar los autos");
+      }
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchAutos();
   }, []);
 
   const handleFilterChange = (filters: Filters) => {
-    let autosFiltered = autosData;
+    let autosFiltered = autosDataState;
 
     if (filters.marca) {
+      // Comparamos en minúsculas para evitar problemas, normalizar
       autosFiltered = autosFiltered.filter(
-        (auto) => auto.marca === filters.marca
+        (auto) => auto.marca.toLowerCase() === filters.marca!.toLowerCase()
       );
     }
 
@@ -62,8 +97,21 @@ export default function CatalogoPage() {
 
     setFilteredAutos(autosFiltered);
   };
+  // Se decide qué lista mostrar, la filtrada o la completa
+  const autosAMostrar =
+    filteredAutos.length > 0 ? filteredAutos : autosDataState;
 
-  const autosAMostrar = filteredAutos.length > 0 ? filteredAutos : autosData;
+  console.log(autosAMostrar, "autosAMostrar");
+
+  //Mostrar mensaje mientras se cargan datos
+  if (loading) {
+    return <div className="text-center py-12">Cargando autos...</div>;
+  }
+
+  // Mostrar mensaje si hay error
+  if (error) {
+    return <div className="text-center py-12 text-red-600">Error: {error}</div>;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-background text-foreground font-sans min-h-screen">
@@ -72,19 +120,19 @@ export default function CatalogoPage() {
           Catálogo de Autos
         </h1>
         <p className="text-muted mt-2">
-          Encuentra el auto perfecto entre nuestras {autosData.length} opciones
-          disponibles
+          Encuentra el auto perfecto entre nuestras {autosDataState.length}{" "}
+          opciones disponibles
         </p>
       </div>
-
+      {/* Barra de filtros */}
       <FilterBar onFilterChange={handleFilterChange} />
 
       <div className="mb-4">
         <p className="text-sm text-muted">
-          Mostrando {autosAMostrar.length} de {autosData.length} autos
+          Mostrando {autosAMostrar.length} de {autosDataState.length} autos
         </p>
       </div>
-
+      {/* Mostrar autos o mensaje si no hay resultados */}
       {autosAMostrar.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {autosAMostrar.map((auto) => (
