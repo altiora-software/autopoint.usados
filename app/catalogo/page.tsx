@@ -103,7 +103,7 @@ export default function CatalogoPage() {
   // Se decide qué lista mostrar, la filtrada o la completa
   const autosAMostrar = filteredAutos.length > 0 ? filteredAutos : autosData;
 
-  console.log(autosAMostrar, "autosAMostrar");
+  // console.log(autosAMostrar, "autosAMostrar");
 
   //Mostrar mensaje mientras se cargan datos
   if (loading) {

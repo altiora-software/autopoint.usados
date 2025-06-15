@@ -154,10 +154,7 @@ export default function AutosCarousel() {
                 transform: `translateX(-${currentIndex * 100}%)`,
               }}
             >
-              {/*
-      On smaller screens (mobile), you probably still want the carousel
-      with all cars. So, we'll conditionally render or slice for desktop.
-    */}
+              {/* Autos para móvil */}
               {autos.slice(0, 3).map(
                 (
                   auto // <--- Add .slice(0, 3) here for desktop view
