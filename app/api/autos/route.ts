@@ -10,6 +10,8 @@ import { NextResponse } from "next/server";
 
 // const prisma = new PrismaClient();
 
+console.log("API OK");
+
 export async function GET() {
   try {
     //para usar mock de datos

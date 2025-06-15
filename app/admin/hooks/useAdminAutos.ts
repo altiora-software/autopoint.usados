@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { AdminAuto } from "@/types/admin";
+import type { AdminAuto } from "../../../types/admin";
 
 export function useAdminAutos() {
   const [autos, setAutos] = useState<AdminAuto[]>([]);

@@ -55,7 +55,7 @@ export default function AdminPage() {
 
   // Al montar y cuando cambia status, traemos autos si está autenticado
   useEffect(() => {
-    if (status === "authenticated") {
+    if (status === "authenticated" && typeof window !== "undefined") {
       fetchAutos();
     }
   }, [status]);
